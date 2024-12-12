@@ -7,8 +7,19 @@ alpineversion=`cat /etc/alpine-release | cut -d "." -f 1-2 | awk '{print "v"$1}'
 echo $alpineversion
 
 echo "http://dl-cdn.alpinelinux.org/alpine/$alpineversion/community" >> /etc/apk/repositories
+# echo "http://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories
+
 apk update
 apk upgrade
+
+#------------------------------- 
+apk add bash bash-completion sudo shadow
+echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
+adduser uuu wheel
+usermod -s /bin/bash uuu 
+
+#------------------------------- 
+setup-xorg-base 
 
 #------------------------------- 
 
@@ -22,7 +33,13 @@ apk add nano
 
 #------------------------------- 
 
+rc-service dbus start
 rc-update add dbus
+
+rc-service lightdm start
 rc-update add lightdm
+
+
+
 
 
